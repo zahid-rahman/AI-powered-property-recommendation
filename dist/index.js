@@ -8,6 +8,7 @@ const dotenv_1 = __importDefault(require("dotenv"));
 const morgan_1 = __importDefault(require("morgan"));
 const cors_1 = __importDefault(require("cors"));
 const client_1 = require("@prisma/client");
+const controllers_1 = require("./controllers");
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const prisma = new client_1.PrismaClient();
@@ -16,7 +17,7 @@ app.use((0, cors_1.default)());
 app.use((0, morgan_1.default)("dev"));
 app.use(express_1.default.json());
 app.use("/health", (_req, res) => {
-    res.json({ status: "ok" });
+    res.json({ status: "UP" });
 });
 // middleware (naive way)
 // app.use((req, res, next) => {
@@ -33,6 +34,7 @@ app.use("/health", (_req, res) => {
 //   }
 // });
 // all routes
+app.post("/match-properties", controllers_1.matchProperties);
 // 404 handler
 app.use((req, res, next) => {
     res.status(404).json({ message: "Not Found" });
