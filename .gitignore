@@ -4,4 +4,4 @@ node_modules
 tenant_property_db
 dist
 .idea
-views/node_modules
+frontend/node_modules
