@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import morgan from "morgan";
 import cors from "cors";
 import { PrismaClient } from "@prisma/client";
-import { matchProperties } from "./controllers";
+import {matchProperties, parseAndMatch } from "./controllers";
 
 dotenv.config();
 
@@ -38,7 +38,7 @@ app.use("/health", (_req, res) => {
 // all routes
 
 app.post("/match-properties", matchProperties);
-
+app.post("/parse-and-match", parseAndMatch);
 // 404 handler
 app.use((req, res, next) => {
   res.status(404).json({ message: "Not Found" });
