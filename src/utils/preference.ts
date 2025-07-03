@@ -7,6 +7,7 @@ export async function extractPreference(message: string) {
     - bathrooms (number)
     - amenities (array of strings, selected from the list below)
     - move_in_date (formatted as YYYY-MM-DD)
+    - type (string)
 
     Important:
     1. Extract amenities from user-friendly or vague language, and match them to this fixed list:
@@ -22,7 +23,8 @@ export async function extractPreference(message: string) {
 
     4. If any field is not found, leave it as null (or an empty array in case of amenities).
 
-    5. Do not include any notes, keywords, or summaries outside the JSON.
+    5. Do not include any notes, keywords, or summaries outside the JSON. 
+
     `;
   const response = await fetch(
     "https://openrouter.ai/api/v1/chat/completions",

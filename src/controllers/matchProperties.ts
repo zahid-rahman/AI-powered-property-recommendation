@@ -9,7 +9,7 @@ const matchProperties = async (
 ) => {
   try {
     // request body
-    const { location, budget, bedrooms, amenities = [], moveInDate } = req.body;
+    const { location, budget, bedrooms, amenities = [], moveInDate, type } = req.body;
 
     const where: any = {};
     if (location) where.location = { contains: location, mode: "insensitive" };
@@ -17,6 +17,7 @@ const matchProperties = async (
     if (bedrooms) where.bedrooms = { gte: bedrooms };
     if (moveInDate) where.availableFrom = { lte: new Date(moveInDate) };
     if (amenities.length > 0) where.amenities = { hasEvery: amenities };
+    if (type) where.type = { equals: type };
 
     const properties = await prisma.property.findMany({
       where,

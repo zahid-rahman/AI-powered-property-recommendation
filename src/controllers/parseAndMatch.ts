@@ -11,9 +11,9 @@ export default async function parseAndMatch(
     const { message } = req.body;
     const preference = await extractPreference(message);
 
-    console.log({
-      LLMpreference: preference,
-    });
+    // console.log({
+    //   LLMpreference: preference,
+    // });
 
     const {
       location,
@@ -22,18 +22,19 @@ export default async function parseAndMatch(
       bathrooms,
       amenities = [],
       move_in_date,
+      type
     } = preference;
+    const where: any = {};
+    if (location) where.location = { contains: location, mode: "insensitive" };
+    if (budget) where.price = { lte: budget };
+    if (bedrooms) where.bedrooms = { gte: bedrooms };
+    if (bathrooms) where.bathrooms = { gte: bathrooms };
+    if (move_in_date) where.availableFrom = { lte: new Date(move_in_date) };
+    if (amenities.length > 0) where.amenities = { hasEvery: amenities };
+    if (type) where.type = { equals: type };
 
     const properties = await prisma.property.findMany({
-      where: {
-        location: { contains: location, mode: "insensitive" },
-        price: { lte: budget },
-        bedrooms: { gte: bedrooms },
-        availableFrom: { lte: new Date(move_in_date) },
-        amenities: {
-          hasEvery: amenities.length > 0 ? amenities : undefined,
-        },
-      },
+      where,
       orderBy: {
         price: "asc",
       },
