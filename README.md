@@ -54,8 +54,8 @@ Returns amenities in the response as an object, showing which requested amenitie
 
 * **Extensible API Design:** Modular controller structure allows for easy addition of new features and endpoints.
 
-* **AI-Based Recommendation (Coming Soon):**
-Personalized property recommendations powered by advanced AI models, tailored to user preferences and behavior.
+* **AI-Based Recommendation:**
+Personalized property recommendations powered by AI models, tailored to user preferences and behavior.
 
 ### Demo picture
 
