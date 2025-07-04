@@ -59,7 +59,7 @@ Personalized property recommendations powered by AI models, tailored to user pre
 
 ### Demo picture
 
-![alt text](image.png)
+![alt text](image-1.png)
 
 ## Authors
 
