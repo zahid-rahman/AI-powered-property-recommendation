@@ -59,5 +59,6 @@ Personalized property recommendations powered by advanced AI models, tailored to
 
 ## Authors
 
-Md. Zahid Rahman
-Web Developer L2, Programming Hero
+Md. Zahid Rahman 
+
+`Web Developer L2, Programming Hero`
