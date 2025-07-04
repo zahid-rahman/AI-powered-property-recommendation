@@ -30,6 +30,7 @@ An AI-powered property recommendation system is an intelligent software solution
 * Frontend: Next js
 * Backend: Express js
 * Database: Postgresql
+* ORM: prisma
 * AI tools: Openrouter.ai
 * Models: mistralai/mistral-7b-instruct (for testing purpose)
 
@@ -64,4 +65,4 @@ Personalized property recommendations powered by advanced AI models, tailored to
 
 Md. Zahid Rahman 
 
-`An enthusiastic Software Developer`
+`An enthusiastic Software Engineer`
