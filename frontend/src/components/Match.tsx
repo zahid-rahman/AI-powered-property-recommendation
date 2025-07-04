@@ -65,7 +65,7 @@ export default function PropertyMatcher() {
                             <h3 className="font-bold text-lg">{property.title}</h3>
                             <p>{property.description}</p>
                             <p className="text-sm text-gray-600">
-                                {property.bedrooms} BR · ${property.price} · {property.location}
+                                {property.bedrooms} BED · {property.bathrooms} BATH . {property.type} . ${property.price} · {property.location}
                             </p>
                             <p className="text-sm text-gray-500">
                                 Available from: {new Date(property.availableFrom).toDateString()}
