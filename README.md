@@ -55,10 +55,12 @@ Returns amenities in the response as an object, showing which requested amenitie
 * **AI-Based Recommendation (Coming Soon):**
 Personalized property recommendations powered by advanced AI models, tailored to user preferences and behavior.
 
+### Demo picture
 
+![alt text](image.png)
 
 ## Authors
 
 Md. Zahid Rahman 
 
-`Web Developer L2, Programming Hero`
+`An enthusiastic Software Developer`
