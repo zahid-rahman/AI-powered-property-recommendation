@@ -11,10 +11,6 @@ export default async function parseAndMatch(
     const { message } = req.body;
     const preference = await extractPreference(message);
 
-    // console.log({
-    //   LLMpreference: preference,
-    // });
-
     const {
       location,
       budget,
