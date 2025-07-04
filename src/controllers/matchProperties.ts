@@ -19,6 +19,7 @@ const matchProperties = async (
     if (amenities.length > 0) where.amenities = { hasEvery: amenities };
     if (type) where.type = { equals: type };
 
+    // Fetch properties from the database based on the criteria
     const properties = await prisma.property.findMany({
       where,
       orderBy: { price: "asc" },

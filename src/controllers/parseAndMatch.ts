@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import prisma from "@/prisma";
 import { extractPreference } from "@/utils/preference";
+import { generateRecommendation } from "@/utils/generateRecommendation";
 
 export default async function parseAndMatch(
   req: Request,
@@ -18,7 +19,7 @@ export default async function parseAndMatch(
       bathrooms,
       amenities = [],
       move_in_date,
-      type
+      type,
     } = preference;
     const where: any = {};
     if (location) where.location = { contains: location, mode: "insensitive" };
@@ -36,9 +37,21 @@ export default async function parseAndMatch(
       },
     });
 
+    // calling the recommendation message through AI
+    let recommendationMessage = null;
+    let preferences = where;
+    if (properties.length > 0) {
+      // send the entire result set to the LLM (or just top 5 to keep token usage low)
+      recommendationMessage = await generateRecommendation(
+        preferences,
+        properties.slice(0, 5)
+      );
+    }
+
     res.json({
       extractedPreferences: preference,
       matches: properties,
+      recommendation: recommendationMessage,
     });
   } catch (error) {
     console.error("Error matching properties:", error);
