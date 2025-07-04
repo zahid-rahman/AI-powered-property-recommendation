@@ -22,6 +22,7 @@ An AI-powered property recommendation system is an intelligent software solution
 * Run `docker compose up -d` for spinning postgresql
 * Run `npm run dev` to spin backend app
 * Go to `frontend` folder and run `npm run dev` command to spin frontend application
+* Seed data into your database by running `npx tsx prisma/seed.ts`
 
 
 ### Tech stack
