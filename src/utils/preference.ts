@@ -18,12 +18,15 @@ export async function extractPreference(message: string) {
     - "proper parking spot" or "secure car parking" → "parking"
     - "great WiFi" → "wifi"
     - "has a nice backyard" → "garden"
+    - Type should be one of: "apartment", "house", "condo", "studio", "loft", "townhouse" etc.
 
     3. Only return a **valid JSON** object, without markdown, code block, or explanation. Do not add extra commentary.
 
     4. If any field is not found, leave it as null (or an empty array in case of amenities).
 
     5. Do not include any notes, keywords, or summaries outside the JSON. 
+
+    6. Do not include any default preference just return the extracted preferences as they are after pre processing.
 
     `;
   const response = await fetch(
