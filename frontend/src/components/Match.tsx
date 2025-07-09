@@ -2,10 +2,26 @@
 
 import { useState } from "react";
 
+export type RecommendedProperty = {
+    id: string;
+    title: string;
+    description?: string;
+    price: number;
+    location: string;
+    bedrooms: number;
+    bathrooms: number;
+    amenities: string[];
+    availableFrom: string;
+}
+
+type Recommendation = {
+    reason: string;
+    property: RecommendedProperty;
+}
 export default function PropertyMatcher() {
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(false);
-    const [recommendation, setRecommendation] = useState<string | null>(null);
+    const [recommendation, setRecommendation] = useState<Recommendation | null>(null);
     const [preferences, setPreferences] = useState<any>(null);
     const [matches, setMatches] = useState<any[]>([]);
 
@@ -85,9 +101,24 @@ export default function PropertyMatcher() {
                 <div className="flex flex-col h-full">
                     <h3 className="font-semibold mb-5">AI Recommendation</h3>
 
-                    {recommendation ? (
+                    {recommendation && recommendation.property && recommendation.reason ? (
                         <div className="bg-green-50 border p-4 rounded mb-4">
-                            <p className="text-green-900">{recommendation}</p>
+                            <h3 className="font-semibold text-green-700">AI Recommendation</h3>
+                            <p className="text-green-900 mb-2">{recommendation.reason}</p>
+
+                            {recommendation.property && (
+                                <div className="border p-4 rounded bg-white shadow-sm">
+                                    <h4 className="font-bold">{recommendation.property.title}</h4>
+                                    <p>{recommendation.property.description}</p>
+                                    <p className="text-sm text-gray-600">
+                                        {recommendation.property.bedrooms} BR · ${recommendation.property.price} · {recommendation.property.location}
+                                    </p>
+                                    <p className="text-sm text-gray-500">
+                                        Available from: {new Date(recommendation.property.availableFrom).toDateString()}
+                                    </p>
+                                    <p className="text-sm">Amenities: {recommendation.property.amenities?.join(", ")}</p>
+                                </div>
+                            )}
                         </div>
                     ) : (
                         <div className="bg-gray-50 border p-4 rounded mb-4">

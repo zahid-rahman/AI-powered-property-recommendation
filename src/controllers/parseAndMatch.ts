@@ -8,6 +8,8 @@ export default async function parseAndMatch(
   res: Response,
   next: NextFunction
 ) {
+  let recommendationResult = null;
+  let recommendedProperty = null;
   try {
     const { message } = req.body;
     const preference = await extractPreference(message);
@@ -41,17 +43,22 @@ export default async function parseAndMatch(
     let recommendationMessage = null;
     let preferences = where;
     if (properties.length > 0) {
-      // send the entire result set to the LLM (or just top 5 to keep token usage low)
-      recommendationMessage = await generateRecommendation(
+      recommendationResult = await generateRecommendation(
         preferences,
         properties.slice(0, 5)
       );
+      const recommendedId = recommendationResult.recommended_property_id;
+
+      recommendedProperty = properties.find((p) => p.id === recommendedId);
     }
 
     res.json({
       extractedPreferences: preference,
       matches: properties,
-      recommendation: recommendationMessage,
+      recommendation: {
+        reason: recommendationResult?.reason,
+        property: recommendedProperty,
+      },
     });
   } catch (error) {
     console.error("Error matching properties:", error);
