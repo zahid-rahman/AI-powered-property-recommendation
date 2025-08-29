@@ -33,11 +33,33 @@
 //   return message;
 // }
 
-
-export async function generateRecommendation(preference: any, properties: any[]) {
-  const simplifiedProps = properties.slice(0, 5).map(({ id, title, price, location, bedrooms, bathrooms, amenities, availableFrom }) => ({
-    id, title, price, location, bedrooms, bathrooms, amenities, availableFrom
-  }));
+export async function generateRecommendation(
+  preference: any,
+  properties: any[]
+) {
+  const simplifiedProps = properties
+    .slice(0, 5)
+    .map(
+      ({
+        id,
+        title,
+        price,
+        location,
+        bedrooms,
+        bathrooms,
+        amenities,
+        availableFrom,
+      }) => ({
+        id,
+        title,
+        price,
+        location,
+        bedrooms,
+        bathrooms,
+        amenities,
+        availableFrom,
+      })
+    );
 
   const prompt = `
 You are a real estate assistant helping match tenants with the most suitable rental property.
@@ -59,25 +81,31 @@ Important:
 - Do NOT include markdown, explanations, or extra text.
 `;
 
-  const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      model: "mistralai/mistral-7b-instruct",
-      response_format: "json",
-      messages: [
-        { role: "system", content: prompt }
-      ],
-    }),
-  });
-
-  const data: any = await response.json();
-  const content = data.choices?.[0]?.message?.content?.trim();
+let content = null;
 
   try {
+    const response = await fetch(
+      "https://openrouter.ai/api/v1/chat/completions",
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          model: "openai/gpt-oss-120b",
+          // model: 'openai/gpt-oss-120b',
+          response_format: "json",
+          messages: [{ role: "system", content: prompt }],
+        }),
+      }
+    );
+
+    const data: any = await response.json();
+    content = data.choices?.[0]?.message?.content?.trim();
+    console.log({
+      content
+    })
     return JSON.parse(content); // returns { recommended_property_id, reason }
   } catch (error) {
     console.error("Failed to parse AI output:", content);
