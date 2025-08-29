@@ -32,7 +32,7 @@ An AI-powered property recommendation system is an intelligent software solution
 * Database: Postgresql
 * ORM: prisma
 * AI tools: Openrouter.ai
-* Models: mistralai/mistral-7b-instruct (for testing purpose)
+* Models: mistralai/mistral-7b-instruct, openai/gpt-oss-20b (for testing purpose)
 
 
 ### Features

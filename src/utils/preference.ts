@@ -26,9 +26,7 @@ export async function extractPreference(message: string) {
     5. Do not include any notes, keywords, or summaries outside the JSON. 
 
     6. Do not include any default preference just return the extracted preferences as they are after pre processing.`;
- console.log({
-  apiKey: process.env.OPENROUTER_API_KEY
- })
+
   try {
     const response = await fetch(
       "https://openrouter.ai/api/v1/chat/completions",
@@ -39,7 +37,7 @@ export async function extractPreference(message: string) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          model: "openai/gpt-oss-120b",
+          model: "openai/gpt-oss-20b",
           response_format: "json",
           messages: [
             {
@@ -57,7 +55,6 @@ export async function extractPreference(message: string) {
 
     const data: any = await response.json();
     const content = data.choices?.[0]?.message?.content;
-    console.log({ data });
     return JSON.parse(content);
   } catch (error) {
     console.error("Failed to parse LLM output:", error);
