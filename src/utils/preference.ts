@@ -1,6 +1,5 @@
 export async function extractPreference(message: string) {
-  const SYSTEM_PROMPT = `
-    You are an expert assistant helping extract rental preferences from tenant messages. Your job is to return only a valid JSON object with the following fields:
+  const SYSTEM_PROMPT = `You are an expert assistant helping extract rental preferences from tenant messages. Your job is to return only a valid JSON object with the following fields:
     - location (string)
     - budget (number, without $ sign)
     - bedrooms (number)
@@ -26,42 +25,39 @@ export async function extractPreference(message: string) {
 
     5. Do not include any notes, keywords, or summaries outside the JSON. 
 
-    6. Do not include any default preference just return the extracted preferences as they are after pre processing.
-
-    `;
-  const response = await fetch(
-    "https://openrouter.ai/api/v1/chat/completions",
-    {
-      method: "post",
-      headers: {
-        Authorization:
-          `Bearer ${process.env.OPENROUTER_API_KEY}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        model: "mistralai/mistral-7b-instruct",
-        response_format: "json",
-        messages: [
-          {
-            role: "system",
-            content: SYSTEM_PROMPT,
-          },
-          {
-            role: "user",
-            content: message,
-          },
-        ],
-      }),
-    }
-  );
-
-  const data: any = await response.json();
-  const content = data.choices?.[0]?.message?.content;
+    6. Do not include any default preference just return the extracted preferences as they are after pre processing.`;
 
   try {
+    const response = await fetch(
+      "https://openrouter.ai/api/v1/chat/completions",
+      {
+        method: "post",
+        headers: {
+          Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          model: "openai/gpt-oss-20b",
+          response_format: "json",
+          messages: [
+            {
+              role: "system",
+              content: SYSTEM_PROMPT,
+            },
+            {
+              role: "user",
+              content: message,
+            },
+          ],
+        }),
+      }
+    );
+
+    const data: any = await response.json();
+    const content = data.choices?.[0]?.message?.content;
     return JSON.parse(content);
   } catch (error) {
-    console.error("Failed to parse LLM output:", content);
+    console.error("Failed to parse LLM output:", error);
     throw new Error("LLM response format error");
   }
 }
